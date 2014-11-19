@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pujun.spider.storage.SpiderDoc">
+  <resultMap id="all" type="com.pujun.spider.storage.SpiderDoc">
+    <result property="id" column="id"/>
+    <result property="title" column="title"/>
+    <result property="fetchtime" column="fetchtime"/>
+    <result property="html" column="html"/>
+    <result property="content" column="content"/>
+    <result property="pubdate" column="pubdate"/>
+    <result property="author" column="author"/>
+    <result property="original" column="original"/>
+  </resultMap>
+  <insert id="add" parameterType="com.pujun.spider.storage.SpiderDoc" useGeneratedKeys="true" keyProperty="id"> 
+    insert into spider_doc(id,title,fetchtime,html,content,pubdate,author,original)VALUES(#{id},#{title},#{fetchtime},#{html},#{content},#{pubdate},#{author},#{original})
+    ON DUPLICATE KEY UPDATE
+    title = #{title},fetchtime = #{fetchtime}, html = #{html}, content = #{content}, pubdate = #{pubdate}, author = #{author},original = #{original}
+  </insert>
+  <select id="selectall" resultMap="all">
+      select * from spider_doc
+  </select>
+</mapper>
