@@ -1,7 +1,7 @@
 package com.pujun.spider.storage;
 
 public class SpiderDoc {
-	private String id;
+	private int id;
 	private String title;
 	private String fetchtime;
 	private String html;
@@ -9,17 +9,57 @@ public class SpiderDoc {
 	private String pubdate;
 	private String author;
 	private String original;
+	private String url;
+	private int status;
+	private String charset;
+
+	/**
+	 * @return the charset
+	 */
+	public String getCharset() {
+		return charset;
+	}
+	/**
+	 * @param charset the charset to set
+	 */
+	public void setCharset(String charset) {
+		this.charset = charset;
+	}
 	/**
 	 * @return the id
 	 */
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
+	}
+	/**
+	 * @return the url
+	 */
+	public String getUrl() {
+		return url;
+	}
+	/**
+	 * @param url the url to set
+	 */
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	/**
+	 * @return the status
+	 */
+	public int getStatus() {
+		return status;
+	}
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	/**
 	 * @return the title

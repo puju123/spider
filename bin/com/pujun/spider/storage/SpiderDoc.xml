@@ -12,6 +12,8 @@
     <result property="pubdate" column="pubdate"/>
     <result property="author" column="author"/>
     <result property="original" column="original"/>
+    <result property="url" column="url"/>
+    <result property="status" column="status"/>
   </resultMap>
   <insert id="add" parameterType="com.pujun.spider.storage.SpiderDoc" useGeneratedKeys="true" keyProperty="id"> 
     insert into spider_doc(id,title,fetchtime,html,content,pubdate,author,original)VALUES(#{id},#{title},#{fetchtime},#{html},#{content},#{pubdate},#{author},#{original})
