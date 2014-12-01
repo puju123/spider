@@ -1,15 +1,15 @@
-CREATE DATABASE `spider_doc` /*!40100 DEFAULT CHARACTER SET utf8 */;
 CREATE TABLE `spider_doc` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` varchar(100) NOT NULL,
   `title` text,
-  `fetchtime` varchar(45) DEFAULT NULL,
-  `html` longtext,
+  `fetchtime` varchar(128) DEFAULT NULL,
+  `html` longblob,
   `content` longtext,
   `pubdate` varchar(45) DEFAULT NULL,
   `author` varchar(45) DEFAULT NULL,
   `original` varchar(512) DEFAULT NULL,
-  `status` int(11) DEFAULT NULL,
-  `url` varchar(512) NOT NULL,
+  `status` varchar(32) DEFAULT NULL,
+  `url` varchar(2048) NOT NULL,
   `charset` varchar(45) DEFAULT NULL,
+  `fetchcode` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
