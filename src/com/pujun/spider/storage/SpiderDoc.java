@@ -1,7 +1,7 @@
 package com.pujun.spider.storage;
 
 public class SpiderDoc {
-	private int id;
+	private String id;
 	private String title;
 	private String fetchtime;
 	private String html;
@@ -10,9 +10,36 @@ public class SpiderDoc {
 	private String author;
 	private String original;
 	private String url;
-	private int status;
+	private String status;
 	private String charset;
+	private int fetchcode;
 
+	public void clear() {
+		id=null;
+		title=null;
+		fetchtime=null;
+		html=null;
+		content=null;
+		pubdate=null;
+		author=null;
+		original=null;
+		url=null;
+		status=null;
+		charset=null;
+		fetchcode=0;
+	}
+	/**
+	 * @return the fetchcode
+	 */
+	public int getFetchcode() {
+		return fetchcode;
+	}
+	/**
+	 * @param fetchcode the fetchcode to set
+	 */
+	public void setFetchcode(int fetchcode) {
+		this.fetchcode = fetchcode;
+	}
 	/**
 	 * @return the charset
 	 */
@@ -28,13 +55,13 @@ public class SpiderDoc {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	/**
@@ -52,13 +79,13 @@ public class SpiderDoc {
 	/**
 	 * @return the status
 	 */
-	public int getStatus() {
+	public String getStatus() {
 		return status;
 	}
 	/**
 	 * @param status the status to set
 	 */
-	public void setStatus(int status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 	/**

@@ -9,14 +9,14 @@ import java.util.HashMap;
  * @date 2014年11月21日 下午2:38:14
  */
 public class FetchQueue {
-	private HashMap<Integer, String> queue;
+	private HashMap<String, String> queue;
     public FetchQueue() {
-    	queue=new HashMap<Integer, String>();
+    	queue=new HashMap<String, String>();
 	}
-    public void add(Integer key,String url) {
+    public void add(String key,String url) {
 		queue.put(key, url);
 	}
-    public void remove(Integer key) {
+    public void remove(String key) {
     	if (queue.containsKey(key)) {
     		queue.remove(key);
 		}
@@ -31,7 +31,7 @@ public class FetchQueue {
 	/**
 	 * @return the queue
 	 */
-	public HashMap<Integer, String> getQueue() {
+	public HashMap<String, String> getQueue() {
 		return queue;
 	}
     

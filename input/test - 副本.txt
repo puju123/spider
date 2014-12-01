@@ -1,2 +1,0 @@
-package org.myorg package
-import java.io.IOException;

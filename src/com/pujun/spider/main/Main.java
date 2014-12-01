@@ -18,15 +18,15 @@ public class Main {
 	}
 	private static void crawl() {
 		// TODO Auto-generated method stub
-       Feeder feeder=new Feeder();
-       feeder.hightQueue.add(1, "http://auguslee.iteye.com/blog/1292335");
-       feeder.hightQueue.add(2, "http://blog.csdn.net/mars5337/article/details/6576417");
-       feeder.hightQueue.add(3, "http://os.51cto.com/art/201306/398363_6.htm");
-       feeder.hightQueue.add(4, "http://www-01.ibm.com/software/data/infosphere/biginsights/quick-start/downloads.html");
-       feeder.hightQueue.add(5, "http://blog.csdn.net/ghsau/article/details/7451464");
-       feeder.middleQueue.add(1, "http://blog.csdn.net/ghsau/article/details/7451464");
-       Thread thread=new Thread(feeder);
-       thread.start();
+        Crawl crawl=new Crawl();
+        crawl.fetch();
+//        try {
+//			Thread.sleep(20000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+        crawl.parse();
 	}
 	private static void insert() {
 		// TODO Auto-generated method stub
