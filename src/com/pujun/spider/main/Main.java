@@ -2,9 +2,8 @@ package com.pujun.spider.main;
 
 import java.util.List;
 
-import com.pujun.spider.crawl.Crawl;
+import com.pujun.spider.crawl.Crawlers;
 import com.pujun.spider.fetch.Feeder;
-import com.pujun.spider.fetch.HtmlFetcher;
 import com.pujun.spider.storage.SpiderDoc;
 import com.pujun.spider.storage.SpiderDocDao;
 
@@ -18,15 +17,11 @@ public class Main {
 	}
 	private static void crawl() {
 		// TODO Auto-generated method stub
-        Crawl crawl=new Crawl();
-        crawl.fetch();
-//        try {
-//			Thread.sleep(20000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-        crawl.parse();
+		Feeder feeder=new Feeder();
+		Thread thread=new Thread(feeder);
+		thread.start();
+        Crawlers crawlers=new Crawlers();
+        crawlers.crawl();
 	}
 	private static void insert() {
 		// TODO Auto-generated method stub

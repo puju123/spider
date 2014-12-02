@@ -19,6 +19,7 @@ public class ParsePage {
 		linkParser.parse();
 		linkParser.getOutlinks();
 		insertOutlinks(linkParser.getOutlinks());
+		spiderDoc.setStatus(Const.PARSED);
 	}
 
 	private void insertOutlinks(ArrayList<String> outlinks) {

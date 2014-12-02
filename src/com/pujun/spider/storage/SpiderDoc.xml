@@ -17,6 +17,11 @@
     <result property="charset" column="charset"/>
     <result property="fetchcode" column="fetchcode"/>
   </resultMap>
+  <resultMap id="urlOnly" type="com.pujun.spider.storage.SpiderDoc">
+    <result property="id" column="id"/>
+    <result property="url" column="url"/>
+    <result property="status" column="status"/>
+  </resultMap>
   <insert id="add" parameterType="com.pujun.spider.storage.SpiderDoc" useGeneratedKeys="true" keyProperty="id"> 
     insert into spider_doc(id,title,fetchtime,html,content,pubdate,author,original,url,status,charset,fetchcode) VALUES(#{id},#{title},#{fetchtime},#{html},#{content},#{pubdate},#{author},#{original},#{url},#{status},#{charset},#{fetchcode})
     ON DUPLICATE KEY UPDATE
@@ -29,7 +34,10 @@
      </foreach>
 
   </insert>
-  <select id="selectall" resultMap="all">
-      select * from spider_doc
+  <select id="selectall" resultMap="urlOnly">
+      select id,url,status from spider_doc
+  </select>
+  <select id="selectlimit" resultMap="urlOnly" parameterType="java.util.Map">
+      select id,url,status FROM spider_doc.spider_doc limit #{startKey},#{size}
   </select>
 </mapper>

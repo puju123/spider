@@ -1,6 +1,7 @@
 package com.pujun.spider.fetch;
 
-import java.util.HashMap;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingDeque;
 /**
  * 抓取队列
  * @Title: FetchQueue.java 
@@ -9,17 +10,15 @@ import java.util.HashMap;
  * @date 2014年11月21日 下午2:38:14
  */
 public class FetchQueue {
-	private HashMap<String, String> queue;
-    public FetchQueue() {
-    	queue=new HashMap<String, String>();
+	private Queue<String> queue;
+    public FetchQueue(int size) {
+    	queue=new LinkedBlockingDeque<String>(size);
 	}
-    public void add(String key,String url) {
-		queue.put(key, url);
+    public void add(String url) {
+		queue.offer(url);
 	}
-    public void remove(String key) {
-    	if (queue.containsKey(key)) {
-    		queue.remove(key);
-		}
+    public String get() {
+    	return queue.poll();
 	}
     public int getSize() {
 		// TODO Auto-generated method stub
@@ -31,7 +30,7 @@ public class FetchQueue {
 	/**
 	 * @return the queue
 	 */
-	public HashMap<String, String> getQueue() {
+	public Queue<String> getQueue() {
 		return queue;
 	}
     
