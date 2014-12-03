@@ -17,7 +17,7 @@ public class Crawler implements Runnable{
 	//需要抓取的url
     private String url;
     //抓取结果队列
-    private static ResultList resultList=new ResultList();
+    public static ResultList resultList=new ResultList();
     //已经抓取数量
     private long recordCount=0;
 	public Crawler(String url, long recordCount) {
@@ -33,17 +33,14 @@ public class Crawler implements Runnable{
 		//抓取
 		HtmlFetcher htmlFetcher = new HtmlFetcher();
 		htmlFetcher.fetch(spiderDoc);
-//		if (Const.FETCHED.equals(spiderDoc.getStatus())) {
-//			//解析
-//			ParsePage parsePage = new ParsePage();
-//			parsePage.parse(spiderDoc);
-//		}
-//		if (Const.PARSED.equals(spiderDoc.getStatus())) {
+		if (Const.FETCHED.equals(spiderDoc.getStatus())) {
+			//解析
+			ParsePage parsePage = new ParsePage();
+			parsePage.parse(spiderDoc);
+		}
 			//结果写入数据库
 		synchronized(resultList) {
 			resultList.addResult(spiderDoc);
 		}
-
-//		}
 	}
 }

@@ -30,7 +30,27 @@ public class SpiderDocDao extends DBBase {
 			for (;i < records.size(); i++) {
 				sqlSession.insert("add",records.get(i));
 		    }
-//	      sqlSession.flushStatements();
+	      sqlSession.flushStatements();
+	      sqlSession.commit();
+	    }catch (Exception e) {
+			// TODO: handle exception
+	    	e.printStackTrace();
+		} finally {
+	      sqlSession.close();
+	    }
+	    System.out.println("插入记录：" + records.size());
+//		LOG.info("SpiderDoc插入记录多条记录:"+ records.size());
+		return 0;
+	}
+	public int save(List<SpiderDoc> records){
+		// TODO Auto-generated method stub
+	    SqlSession sqlSession = getConnection().openSession(ExecutorType.BATCH);
+	    int i = 0; 
+	    try {
+			for (;i < records.size(); i++) {
+				sqlSession.insert("save",records.get(i));
+		    }
+	      sqlSession.flushStatements();
 	      sqlSession.commit();
 	    }catch (Exception e) {
 			// TODO: handle exception
@@ -48,7 +68,7 @@ public class SpiderDocDao extends DBBase {
 //		LOG.info("SpiderDoc查询所有记录。");
 		return session.selectList("selectall");
 	}
-	public List<SpiderDoc> selectLimit(HashMap<String, Long> params) {
+	public List<SpiderDoc> selectLimit(HashMap<String, Object> params) {
 		// TODO Auto-generated method stub
 		SqlSession session=getConnection().openSession();
 //		LOG.info("SpiderDoc查询所有记录。");

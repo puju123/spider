@@ -3,19 +3,29 @@ package com.pujun.spider.tool;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.conn.ConnectTimeoutException;
+import org.apache.http.conn.ConnectionPoolTimeoutException;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -44,51 +54,71 @@ public class ResponseUtil {
 		if (StringUtils.isBlank(url)) {
 			return;
 		}
-		URI uri;
 		try {
-			URL curUrl=new URL(url);
-			uri=new URI(curUrl.getProtocol(), curUrl.getHost(), curUrl.getPath(), curUrl.getQuery(), null);
-		} catch (MalformedURLException e1) {
+			get(url,2000);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			return;
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
+			System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX url抓取出错："+e.getMessage()+" : "+e.getCause().getMessage());
 		}
-		CloseableHttpClient httpClient = HttpClients.createDefault();
-		// HttpPost httpPost=new HttpPost("http://www.sina.com.cn/");
-		HttpGet httpPost = new HttpGet(uri);
-		// Set the User Agent in the header
-		httpPost.addHeader("User-Agent", "nutch2/Nutch-2.2.1");
-		// prefer English
-		httpPost.addHeader("Accept-Language", "en-us,en-gb,en;q=0.7,*;q=0.3");
-		// prefer UTF-8
-		httpPost.addHeader("Accept-Charset",
-				"utf-8,GBK,ISO-8859-1;q=0.7,*;q=0.7");
-		// prefer understandable formats
-		httpPost.addHeader(
-				"Accept",
-				"text/html,application/xml;q=0.9,application/xhtml+xml,text/xml;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5");
-		// accept gzipped content
-		httpPost.addHeader("Accept-Encoding", "x-gzip, gzip, deflate");
-		try {
-			response = httpClient.execute(httpPost);
-			statusCode = response.getStatusLine().getStatusCode();
+	}
+
+	public void get(String url, Integer timeOut) throws Exception {
+
+		HttpClient httpClient = HttpClients.createDefault();
+		URIBuilder uri = new URIBuilder();
+		uri.setPath(url);
+//		uri.addParameters(params);
+		HttpGet httpget = new HttpGet(uri.build());
+		setWenxinHeader(httpget);
+//        setHeader(httpget);
+
+		// set Timeout
+		RequestConfig requestConfig = RequestConfig.custom()
+				.setConnectionRequestTimeout(timeOut)
+				.setConnectTimeout(timeOut).setSocketTimeout(timeOut).build();
+		httpget.setConfig(requestConfig);
+		// get responce
+		HttpResponse response = httpClient.execute(httpget);
+		// get http status code
+		statusCode = response.getStatusLine().getStatusCode();
+		if (statusCode == HttpStatus.SC_OK) {
+			// get result data
 			HttpEntity hEntity = response.getEntity();
 			ByteBuffer buffer;
 			buffer = ByteBuffer.wrap(EntityUtils.toByteArray(hEntity));
 			charset = sniffCharacterEncoding(buffer, "utf-8");
-			html= Charset.forName(charset).decode(buffer).toString();
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
+			html = Charset.forName(charset).decode(buffer).toString();
 		}
 	}
+	private void setHeader(HttpGet httpget) {
+		// TODO Auto-generated method stub
+		// Set the User Agent in the header
+		httpget.addHeader("User-Agent", "nutch2/Nutch-2.2.1");
+		// prefer English
+		httpget.addHeader("Accept-Language", "en-us,en-gb,en;q=0.7,*;q=0.3");
+		// prefer UTF-8
+		httpget.addHeader("Accept-Charset",
+				"utf-8,GBK,ISO-8859-1;q=0.7,*;q=0.7");
+		// prefer understandable formats
+		httpget.addHeader(
+				"Accept",
+				"text/html,application/xml;q=0.9,application/xhtml+xml,text/xml;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5");
+		// accept gzipped content
+		httpget.addHeader("Accept-Encoding", "x-gzip, gzip, deflate");
+	}
+
+	private void setWenxinHeader(HttpGet httpget) {
+		// TODO Auto-generated method stub
+		httpget.addHeader("Host","weixin.sogou.com");
+		httpget.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0");
+		httpget.addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+		httpget.addHeader("Accept-Language","zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3");
+		httpget.addHeader("Accept-Encoding","gzip, deflate");
+		httpget.addHeader("Referer","http://weixin.sogou.com/");Referer: 
+		httpget.addHeader("Cookie","CXID=93BB9FFC4F8B6FD3EA4B39B4452AF08B; SUID=8374786A791C900A5455C3920004C288; ad=eklLvlllll2UqtnvlllllVSMPjDlllllzXP1kZllll9llllllh7ll5@@@@@@@@@@; SUV=1411021347384051; IPLOC=CN1100; ssuid=9857610260; ABTEST=7|1417586642|v17; sct=3; SNUID=D1DF6ACEA2A7A8E627787939A28D4C8D"); 
+		httpget.addHeader("Connection","keep-alive");
+	}
+
 	/**
 	 * @return the response
 	 */

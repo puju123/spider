@@ -20,7 +20,8 @@ public class Crawlers{
 	// 高优先级队列
 	public static FetchQueue lowQueue = new FetchQueue(1000);
 	// 线程池
-	public static ExecutorService exe = Executors.newFixedThreadPool(100);
+	public static ExecutorService pool = Executors.newFixedThreadPool(100);
+	public static int queueSize = 0;
 	//处理记录总数--〉for test
 	private long recordCount=0;
 	/**
@@ -75,7 +76,7 @@ public class Crawlers{
 					.println("..................................................................目前处理第:"
 							+ recordCount);
 					Crawler crawler = new Crawler(key,recordCount);
-					exe.submit(crawler);
+					pool.submit(crawler);
 					// spiderDoc.getFetchtime());
 				}catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -84,14 +85,16 @@ public class Crawlers{
 				}
 			}
 			try {
-				//最后结果写入数据库
-			    ResultList resultList=new ResultList();
-			    resultList.insert();
 				Thread.sleep(5000);
+				//最后结果写入数据库
+			    Crawler.resultList.insert();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+	}
+	public static long getQueuesSize() {
+		return hightQueue.getSize()+middleQueue.getSize()+lowQueue.getSize();
 	}
 }

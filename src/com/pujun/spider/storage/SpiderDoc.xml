@@ -21,8 +21,12 @@
     <result property="id" column="id"/>
     <result property="url" column="url"/>
     <result property="status" column="status"/>
+    <result property="fetchcode" column="fetchcode"/>
   </resultMap>
   <insert id="add" parameterType="com.pujun.spider.storage.SpiderDoc" useGeneratedKeys="true" keyProperty="id"> 
+    insert ignore into spider_doc(id,title,fetchtime,html,content,pubdate,author,original,url,status,charset,fetchcode) VALUES(#{id},#{title},#{fetchtime},#{html},#{content},#{pubdate},#{author},#{original},#{url},#{status},#{charset},#{fetchcode})
+  </insert>
+  <insert id="save" parameterType="com.pujun.spider.storage.SpiderDoc" useGeneratedKeys="true" keyProperty="id"> 
     insert into spider_doc(id,title,fetchtime,html,content,pubdate,author,original,url,status,charset,fetchcode) VALUES(#{id},#{title},#{fetchtime},#{html},#{content},#{pubdate},#{author},#{original},#{url},#{status},#{charset},#{fetchcode})
     ON DUPLICATE KEY UPDATE
     title = #{title},fetchtime = #{fetchtime}, html = #{html}, content = #{content}, pubdate = #{pubdate}, author = #{author},original = #{original},status = #{status},charset = #{charset},fetchcode = #{fetchcode}
@@ -35,9 +39,9 @@
 
   </insert>
   <select id="selectall" resultMap="urlOnly">
-      select id,url,status from spider_doc
+      select id,url,status,fetchcode from spider_doc
   </select>
   <select id="selectlimit" resultMap="urlOnly" parameterType="java.util.Map">
-      select id,url,status FROM spider_doc.spider_doc limit #{startKey},#{size}
+      select id,url,status,fetchcode FROM spider_doc.spider_doc where status!=#{status} or status is null limit #{startKey},#{size}
   </select>
 </mapper>

@@ -2,6 +2,8 @@ package com.pujun.spider.storage;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.pujun.spider.crawl.Crawlers;
 /**
  * 抓取最终结果缓存类
  * @Title: ResultList.java 
@@ -13,7 +15,7 @@ public class ResultList {
     public List<SpiderDoc> resultDocs=new ArrayList<SpiderDoc>();
     public void addResult(SpiderDoc spiderDoc){
     	resultDocs.add(spiderDoc);
-    	if (resultDocs.size()>=200) {
+    	if (resultDocs.size()>=500) {
             insert();
 		}
     }
@@ -21,8 +23,9 @@ public class ResultList {
 		if (resultDocs.size()>0) {
 			SpiderDocDao spiderDocDao = new SpiderDocDao();
 			try {
-				System.out.println("插入解析后记录："+ resultDocs.size());
-				spiderDocDao.add(resultDocs);
+//				System.out.println("插入解析后记录："+ resultDocs.size());
+				spiderDocDao.save(resultDocs);
+				Crawlers.queueSize-=resultDocs.size();
 				resultDocs.clear();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
