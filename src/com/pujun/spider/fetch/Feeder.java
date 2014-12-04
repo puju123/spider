@@ -27,6 +27,8 @@ public class Feeder implements Runnable {
 		// TODO Auto-generated method stub
 		feedFromFile();
 		while (true) {
+			System.out.println("目前待处理队列："+Crawlers.queueSize);
+			System.out.println("目前活动线程数："+Thread.activeCount());
 			if (Crawlers.queueSize<1000) {
 		        feedFromMySQL();
 			}
@@ -98,7 +100,7 @@ public class Feeder implements Runnable {
         HashMap<String, Object> params=new HashMap<String, Object>();
         params.put("startKey", startKey);
         params.put("size", size);
-        params.put("status", Const.PARSED);
+        params.put("status", Const.FETCHED);
         return spiderDocDao.selectLimit(params);
     }
 

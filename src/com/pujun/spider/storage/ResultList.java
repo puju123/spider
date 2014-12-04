@@ -12,24 +12,24 @@ import com.pujun.spider.crawl.Crawlers;
  * @date 2014年12月2日 下午4:12:05
  */
 public class ResultList {
-    public List<SpiderDoc> resultDocs=new ArrayList<SpiderDoc>();
-    public void addResult(SpiderDoc spiderDoc){
+    public static List<SpiderDoc> resultDocs=new ArrayList<SpiderDoc>();
+    public synchronized static void addResult(SpiderDoc spiderDoc){
     	resultDocs.add(spiderDoc);
     	if (resultDocs.size()>=500) {
             insert();
 		}
     }
-	public void insert() {
+	public synchronized static void insert() {
 		if (resultDocs.size()>0) {
 			SpiderDocDao spiderDocDao = new SpiderDocDao();
 			try {
 //				System.out.println("插入解析后记录："+ resultDocs.size());
 				spiderDocDao.save(resultDocs);
-				Crawlers.queueSize-=resultDocs.size();
-				resultDocs.clear();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}finally{
+				resultDocs.clear();
 			}
 		}
 	}

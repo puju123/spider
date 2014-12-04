@@ -21,6 +21,11 @@ public class Main {
 		Thread thread=new Thread(feeder);
 		thread.start();
         Crawlers crawlers=new Crawlers();
+//        for (int i = 0; i < 100; i++) {
+//			Thread thread1=new Thread();
+//			thread1.setName(String.valueOf(i));
+//			crawlers.pool.
+//		}
         crawlers.crawl();
 	}
 	private static void insert() {

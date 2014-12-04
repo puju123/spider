@@ -59,6 +59,7 @@ public class ResponseUtil {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX url抓取出错："+e.getMessage()+" : "+e.getCause().getMessage());
+			statusCode=500;
 		}
 	}
 
@@ -69,8 +70,8 @@ public class ResponseUtil {
 		uri.setPath(url);
 //		uri.addParameters(params);
 		HttpGet httpget = new HttpGet(uri.build());
-		setWenxinHeader(httpget);
-//        setHeader(httpget);
+//		setWenxinHeader(httpget);
+        setHeader(httpget);
 
 		// set Timeout
 		RequestConfig requestConfig = RequestConfig.custom()
@@ -93,7 +94,7 @@ public class ResponseUtil {
 	private void setHeader(HttpGet httpget) {
 		// TODO Auto-generated method stub
 		// Set the User Agent in the header
-		httpget.addHeader("User-Agent", "nutch2/Nutch-2.2.1");
+		httpget.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0");
 		// prefer English
 		httpget.addHeader("Accept-Language", "en-us,en-gb,en;q=0.7,*;q=0.3");
 		// prefer UTF-8

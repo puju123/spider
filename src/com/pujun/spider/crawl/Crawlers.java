@@ -24,6 +24,7 @@ public class Crawlers{
 	public static int queueSize = 0;
 	//处理记录总数--〉for test
 	private long recordCount=0;
+	private int threadName=0;
 	/**
 	 * 抓取队列调度
 	 * @Description: TODO
@@ -87,14 +88,14 @@ public class Crawlers{
 			try {
 				Thread.sleep(5000);
 				//最后结果写入数据库
-			    Crawler.resultList.insert();
+			    ResultList.insert();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
-	public static long getQueuesSize() {
-		return hightQueue.getSize()+middleQueue.getSize()+lowQueue.getSize();
-	}
+//	public static long getQueuesSize() {
+//		return hightQueue.getSize()+middleQueue.getSize()+lowQueue.getSize();
+//	}
 }
