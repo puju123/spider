@@ -20,7 +20,7 @@ public class Crawlers{
 	// 高优先级队列
 	public static FetchQueue lowQueue = new FetchQueue(1000);
 	// 线程池
-	public static ExecutorService pool = Executors.newFixedThreadPool(100);
+	public static ExecutorService pool = Executors.newFixedThreadPool(1);
 	public static int queueSize = 0;
 	//处理记录总数--〉for test
 	private long recordCount=0;

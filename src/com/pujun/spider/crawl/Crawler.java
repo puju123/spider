@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.pujun.spider.fetch.HtmlFetcher;
+import com.pujun.spider.parse.ParseMetadata;
 import com.pujun.spider.parse.ParsePage;
 import com.pujun.spider.storage.DBBase;
 import com.pujun.spider.storage.ResultList;
@@ -38,11 +39,20 @@ public class Crawler implements Runnable{
 			//抓取
 			HtmlFetcher htmlFetcher = new HtmlFetcher();
 			htmlFetcher.fetch(spiderDoc);
+			if (Const.FETCHED.equals(spiderDoc.getStatus())) {
+				//解析
+				ParsePage parsePage = new ParsePage();
+				parsePage.parse(spiderDoc);
+				ParseMetadata parseMetadata=new ParseMetadata();
+				parseMetadata.setSpiderDoc(spiderDoc);
+				parseMetadata.parse();
+			}
 //			if (Const.FETCHED.equals(spiderDoc.getStatus())) {
-//				//解析
-//				ParsePage parsePage = new ParsePage();
-//				parsePage.parse(spiderDoc);
-//			}
+//			//解析
+//			   ParseMetadata parseMetadata=new ParseMetadata();
+//			   parseMetadata.setSpiderDoc(spiderDoc);
+//			   parseMetadata.parse();
+//		    }
 				//结果写入数据库
 //			synchronized(resultList) {
 			ResultList.addResult(spiderDoc);

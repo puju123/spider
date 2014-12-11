@@ -38,8 +38,8 @@
      </foreach>
 
   </insert>
-  <select id="selectall" resultMap="urlOnly">
-      select id,url,status,fetchcode from spider_doc
+  <select id="selectall" resultMap="all">
+      select * from spider_doc where fetchcode=200
   </select>
   <select id="selectlimit" resultMap="urlOnly" parameterType="java.util.Map">
       select id,url,status,fetchcode FROM spider_doc.spider_doc where status!=#{status} or status is null limit #{startKey},#{size}
